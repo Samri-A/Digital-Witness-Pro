@@ -1,0 +1,261 @@
+{
+  "info": {
+    "name": "Digital Witness Pro API",
+    "description": "Complete API collection for testing Digital Witness Pro endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001/api",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        },
+        "description": "Check if API is running"
+      }
+    },
+    {
+      "name": "Classify Text - Threats",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"I will find you and make you pay for this\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/classifyText",
+          "host": ["{{baseUrl}}"],
+          "path": ["classifyText"]
+        },
+        "description": "Classify text containing threats"
+      }
+    },
+    {
+      "name": "Classify Text - Blackmail",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"Pay me $500 or I will leak your private photos to everyone\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/classifyText",
+          "host": ["{{baseUrl}}"],
+          "path": ["classifyText"]
+        },
+        "description": "Classify text containing blackmail"
+      }
+    },
+    {
+      "name": "Classify Text - Harassment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"You're so stupid and ugly. Everyone hates you. Just leave already.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/classifyText",
+          "host": ["{{baseUrl}}"],
+          "path": ["classifyText"]
+        },
+        "description": "Classify text containing harassment"
+      }
+    },
+    {
+      "name": "Save Case",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"reporterName\": \"Test User\",\n  \"notes\": \"This is a test case created via Postman. Someone has been sending threatening messages repeatedly.\",\n  \"fileIds\": [],\n  \"classification\": {\n    \"label\": \"threats\",\n    \"confidence\": 0.92,\n    \"explanation\": \"Text contains explicit threats of physical harm\"\n  },\n  \"occurredAt\": \"2024-01-20T10:00:00Z\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/saveCase",
+          "host": ["{{baseUrl}}"],
+          "path": ["saveCase"]
+        },
+        "description": "Create a new case"
+      }
+    },
+    {
+      "name": "Get All Cases",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/getCases",
+          "host": ["{{baseUrl}}"],
+          "path": ["getCases"]
+        },
+        "description": "Get list of all cases"
+      }
+    },
+    {
+      "name": "Get Case Details",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/getCase/:caseId",
+          "host": ["{{baseUrl}}"],
+          "path": ["getCase", ":caseId"],
+          "variable": [
+            {
+              "key": "caseId",
+              "value": "your-case-id-here",
+              "description": "Replace with actual case ID"
+            }
+          ]
+        },
+        "description": "Get full details of a specific case"
+      }
+    },
+    {
+      "name": "Generate PDF",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"caseId\": \"your-case-id-here\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/generatePDF",
+          "host": ["{{baseUrl}}"],
+          "path": ["generatePDF"]
+        },
+        "description": "Generate PDF report for a case"
+      }
+    },
+    {
+      "name": "Get All Quizzes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/getQuizzes",
+          "host": ["{{baseUrl}}"],
+          "path": ["getQuizzes"]
+        },
+        "description": "Get list of all available quizzes"
+      }
+    },
+    {
+      "name": "Get Quiz",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/getQuiz?quizId=:quizId",
+          "host": ["{{baseUrl}}"],
+          "path": ["getQuiz"],
+          "query": [
+            {
+              "key": "quizId",
+              "value": ":quizId",
+              "description": "Replace with actual quiz ID"
+            }
+          ]
+        },
+        "description": "Get specific quiz with questions and choices"
+      }
+    },
+    {
+      "name": "Submit Quiz",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"quizId\": \"your-quiz-id-here\",\n  \"answers\": [\n    {\n      \"questionId\": \"question-1-id\",\n      \"choiceId\": \"choice-1-id\"\n    },\n    {\n      \"questionId\": \"question-2-id\",\n      \"choiceId\": \"choice-2-id\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/submitQuiz",
+          "host": ["{{baseUrl}}"],
+          "path": ["submitQuiz"]
+        },
+        "description": "Submit quiz answers and get results"
+      }
+    },
+    {
+      "name": "Upload Files",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "files",
+              "type": "file",
+              "src": [],
+              "description": "Select one or more files"
+            },
+            {
+              "key": "notes",
+              "value": "Test upload via Postman",
+              "type": "text"
+            },
+            {
+              "key": "reporterName",
+              "value": "Test User",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/upload",
+          "host": ["{{baseUrl}}"],
+          "path": ["upload"]
+        },
+        "description": "Upload one or more files"
+      }
+    }
+  ]
+}
